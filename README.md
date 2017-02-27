@@ -2,6 +2,8 @@
 This is a simple way learn about SHA-1 Hash algorithm. It was a main standard for a long time.
 I am trying to learn the algorithm step by step from multiple guides.
 
+http://www.metamorphosite.com/one-way-hash-encryption-sha1-data-software
+
 # Why SHA1-hash-algorithm?
 The algorithm is has been deprecated recently and google published about SHA-1 collision.
 From my understanding, it is exploitable within a reasonable amount of time with high level GPUs and resources.
