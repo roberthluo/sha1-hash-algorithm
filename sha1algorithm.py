@@ -4,20 +4,26 @@
 
 import io
 import string
-
-
+import struct
+import ctypes
 
 
 def split(inputStr):
     print "This is count"
-    textArray = list(inputStr)
-    for t in textArray:
+    text_array = list(inputStr)
+    for t in text_array:
         print t
-    return textArray
+    return text_array
 
-def convertToASCII(textArray):
-    for t in textArray:
-        print ord(t)
+def convert_to_ASCII(text_array):
+    bin_val = 0
+
+    print "convert_to_ASCII"
+    for t in text_array:
+        print long(ord(t))
+        print bin(long(ord(t)))
+        bin_val += str(bin(int(ord(t))))
+    print bin_val
 
 class Sha1Hash(object):
     _message_byte_length = 0
