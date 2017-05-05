@@ -7,9 +7,20 @@ import string
 import struct
 import ctypes
 
+h0 = 0
+h1 = 0
+h2 = 0
+h3 = 0
+h4 = 0
+
+_a = 0
+_b = 0
+_c = 0
+_d = 0
+_e = 0
 
 def split(inputStr):
-    print "This is count"
+    #print "This is count"
     text_array = list(inputStr)
     for t in text_array:
         print t
@@ -18,19 +29,19 @@ def split(inputStr):
 def convert_to_ASCII(text_array):
     full_bin_str = ''
 
-    print "convert_to_ASCII"
+    #print "convert_to_ASCII"
     for t in text_array:
-        print long(ord(t))
+        #print long(ord(t))
         bin_val = bin(long(ord(t)))
-        print("bim", bin(long(ord(t))))
+        #print("bim", bin(long(ord(t))))
         bin_str = str(bin_val[2:])
-        print("bin str", bin_str)
+        #print("bin str", bin_str)
         full_bin_str = full_bin_str+ bin_str
-    print full_bin_str
+    #print full_bin_str
 
     #add '1' to the end
     full_bin_str = full_bin_str + '1'
-    print full_bin_str
+    #print full_bin_str
 
     return full_bin_str
 
@@ -42,24 +53,24 @@ def append_zeros(full_bin_str):
         length = len(full_bin_str)
         while(length%512 != 0):
             length = len(full_bin_str)
-            print length
+            #print length
             full_bin_str = full_bin_str + '0'
 
-        print full_bin_str
+        #print full_bin_str
 
         #append zeros
         orig_length_bin = bin(orig_length)
         orig_length_str = str(orig_length_bin[2:])
-        print ("orig_length_bin", orig_length, orig_length_str)
+        #print ("orig_length_bin", orig_length, orig_length_str)
 
         #need to add 64 bits
         mess_padding = orig_length_str
         while(len(mess_padding) < 64):
             mess_padding = '0' + mess_padding
-        print ('length', len(mess_padding), mess_padding)
+        #print ('length', len(mess_padding), mess_padding)
 
         total_message = full_bin_str + mess_padding
-        print total_message
+        #print total_message
         return total_message
         #Append original message length
 
@@ -70,7 +81,7 @@ def split_chunk(total_message, length = 32):
     chunk_array = []
     counter = 0
     temp_chunk = ''
-    print length
+    #print length
     for bits in total_message:
         temp_chunk = temp_chunk + bits
         if counter == length:
@@ -98,18 +109,18 @@ def extend_to_eight_words(chunk_array):
 
 
     for i in range(79 - 16):
-        print 'value of i',i
+        #print 'value of i',i
         list_counter[fourth] = True
         list_counter[third] = True
         list_counter[second] = True
         list_counter[first] = True
 
-        print("index", fourth, third, second, first)
+        #print("index", fourth, third, second, first)
         fourth_word = int(temp_chunk_array[fourth])
         third_word = int(temp_chunk_array[third])
         second_word = int(temp_chunk_array[second])
         first_word = int(temp_chunk_array[first])
-        print "Words", fourth_word, third_word, second_word, first_word
+        #print "Words", fourth_word, third_word, second_word, first_word
         temp_word = fourth_word^third_word
         temp_word = temp_word^second_word
         temp_word = temp_word^first_word
@@ -122,7 +133,7 @@ def extend_to_eight_words(chunk_array):
         fourth = fourth + 1
         out = out + 1
 
-        print "Words len", len(temp_chunk_array)
+        #print "Words len", len(temp_chunk_array)
         #while list_counter[first] :
         #    first = first + 1
         #while list_counter[second] or second == first:
@@ -133,6 +144,48 @@ def extend_to_eight_words(chunk_array):
         #    fourth = fourth + 1
         #while list_counter[out] or out == fourth or out == third or out == second or out == first:
         #    out = out + 1
+
+
+#Initialize some variables
+def init_var():
+    global h0
+    global h1
+    global h2
+    global h3
+    global h4
+
+    h0 = 01100111010001010010001100000001
+    h1 = 11101111110011011010101110001001
+    h2 = 10011000101110101101110011111110
+    h3 = 00010000001100100101010001110110
+    h4 = 11000011110100101110000111110000
+
+    print "\n\n\n h0", h0
+    print "h1", h1
+    print "h2", h2
+    print "h3", h3
+    print "h4", h4
+
+def init_var_step_ten():
+    global _a
+    global _b
+    global _c
+    global _d
+    global _e
+    #print "\n\n\n_b", h0
+    _a = h0
+    _b = h1
+    _c = h2
+    _d = h3
+    _e = h4
+
+def function_one():
+
+    print "\n\n\n h", h4
+
+    temp = bin(_b) | bin(_a)
+    print "temp", temp
+
 
 class Sha1Hash(object):
     _message_byte_length = 0
