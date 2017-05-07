@@ -144,7 +144,7 @@ def extend_to_eight_words(chunk_array):
         #    fourth = fourth + 1
         #while list_counter[out] or out == fourth or out == third or out == second or out == first:
         #    out = out + 1
-
+    init_var_step_ten()
 
 #Initialize some variables
 def init_var():
@@ -154,17 +154,17 @@ def init_var():
     global h3
     global h4
 
-    h0 = 01100111010001010010001100000001
-    h1 = 11101111110011011010101110001001
-    h2 = 10011000101110101101110011111110
-    h3 = 00010000001100100101010001110110
-    h4 = 11000011110100101110000111110000
+    h0 = 0b01100111010001010010001100000001
+    h1 = 0b11101111110011011010101110001001
+    h2 = 0b10011000101110101101110011111110
+    h3 = 0b00010000001100100101010001110110
+    h4 = 0b11000011110100101110000111110000
 
-    print "\n\n\n h0", h0
-    print "h1", h1
-    print "h2", h2
-    print "h3", h3
-    print "h4", h4
+    #print "\n\n\n h0", h0
+    #print "h1", h1
+    #print "h2", h2
+    #print "h3", h3
+    #print "h4", h4
 
 def init_var_step_ten():
     global _a
@@ -181,10 +181,18 @@ def init_var_step_ten():
 
 def function_one():
 
-    print "\n\n\n h", h4
+    #prints in binary
+    print "\n\n\n h4", h4
+    print "\n\n\n _b", _b
+    rint "\n\n\n _c", _c
+    out_one = _b ^ _a
+    print "temp_step", out_one
 
-    temp = bin(_b) | bin(_a)
-    print "temp", temp
+    out_two = ~_b ^ _d
+    print "temp_step", bin(out_two)
+    _f = out_two | out_two
+
+    print "_f",bin(_f)
 
 
 class Sha1Hash(object):
