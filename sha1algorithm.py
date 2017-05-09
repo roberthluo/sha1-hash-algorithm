@@ -183,17 +183,51 @@ def function_one():
 
     #prints in binary
     print "\n\n\n h4", h4
-    print "\n\n\n _b", _b
-    rint "\n\n\n _c", _c
-    out_one = _b ^ _a
-    print "temp_step", out_one
+    print "\n\n\n _b", bin(_b)
+    print "\n\n\n _c", bin(_c)
+    out_one = _b & _c
+    print "temp_step1", bin(out_one)
 
-    out_two = ~_b ^ _d
+    out_two = (~_b) & _d
     print "temp_step", bin(out_two)
     _f = out_two | out_two
 
     print "_f",bin(_f)
+    _k = 0b01011010100000100111100110011001
 
+def function_two():
+    print "\n\n\n _b", _b
+
+    out_two = (_b ^ _c) ^ _d
+    _k = 0b01101110110110011110101110100001
+
+def function_three():
+    print "\n\n\n _b", _b
+
+    out_two = ((_b & _c) & (_b & _d)) | (C & D)
+
+    _k = 0b10001111000110111011110011011100
+
+def function_four():
+
+    out_two = ((_b & _c) & (_b & _d)) | (C & D)
+
+    _k = 0b11001010011000101100000111010110
+
+def end_function():
+    h0 = h0+_a;
+    h1 = h1+_b;
+    h2 = h2+_c;
+    h3 = h3+_d;
+    h4 = h4+_e;
+
+    h0_hex = hex(h0)
+    h1_hex = hex(h1)
+    h2_hex = hex(h2)
+    h3_hex = hex(h3)
+    h4_hex = hex(h4)
+
+    final_hash = h0_hex + h1_hex + h2_hex + h3_hex + h4_hex
 
 class Sha1Hash(object):
     _message_byte_length = 0
