@@ -18,6 +18,8 @@ _b = 0
 _c = 0
 _d = 0
 _e = 0
+_f = 0
+_k = 0
 
 def split(inputStr):
     #print "This is count"
@@ -93,10 +95,17 @@ def split_chunk(total_message, length = 32):
     #print chunk_array
     return chunk_array
 
-def extend_to_eight_words(chunk_array):
+def extend_to_eighty_words(chunk_array):
     #starts off with 0, 2, 8, 13
     #hard coding to loop 16 times
-    temp_chunk_array = chunk_array
+    temp_chunk_array = []
+
+    #loop through and make sure it is all binary type
+    for item in chunk_array:
+        temp_chunk_array.append(int(item, 2))
+
+
+    print("temp chunk array", temp_chunk_array)
     fourth = 13
     third = 8
     second = 2
@@ -107,6 +116,7 @@ def extend_to_eight_words(chunk_array):
     for i in list_counter:
         list_counter[i] = False
 
+    print("temp chunk array", temp_chunk_array)
 
     for i in range(79 - 16):
         #print 'value of i',i
@@ -115,13 +125,16 @@ def extend_to_eight_words(chunk_array):
         list_counter[second] = True
         list_counter[first] = True
 
+        print("type", type(temp_chunk_array[fourth]))
         #print("index", fourth, third, second, first)
-        fourth_word = int(temp_chunk_array[fourth])
-        third_word = int(temp_chunk_array[third])
-        second_word = int(temp_chunk_array[second])
-        first_word = int(temp_chunk_array[first])
-        #print "Words", fourth_word, third_word, second_word, first_word
+        fourth_word = temp_chunk_array[fourth]
+        third_word = temp_chunk_array[third]
+        second_word = temp_chunk_array[second]
+        first_word =temp_chunk_array[first]
+
+        print "Words", fourth_word, third_word, second_word, first_word
         temp_word = fourth_word^third_word
+        print "temp_word", temp_word
         temp_word = temp_word^second_word
         temp_word = temp_word^first_word
 
@@ -144,7 +157,33 @@ def extend_to_eight_words(chunk_array):
         #    fourth = fourth + 1
         #while list_counter[out] or out == fourth or out == third or out == second or out == first:
         #    out = out + 1
+
+    #print("out", temp_chunk_array)
+
+    init_var()
     init_var_step_ten()
+
+    print 'extend to eight words', temp_chunk_array
+    return temp_chunk_array
+
+def main_loop(temp_chunk_array):
+    print "main loop", temp_chunk_array
+
+
+    for i in range(0, 79):
+        if 0 <= i < 19:
+            function_one()
+            print "func one"
+        if 20 <= i < 39:
+            function_two()
+        if 40 <= i < 59:
+            function_three()
+        if 60 <= i < 79:
+            function_four()
+        print "put together"
+        put_together()
+
+        end_function()
 
 #Initialize some variables
 def init_var():
@@ -180,7 +219,8 @@ def init_var_step_ten():
     _e = h4
 
 def function_one():
-
+    global _f
+    global _k
     #prints in binary
     print "\n\n\n h4", h4
     print "\n\n\n _b", bin(_b)
@@ -193,28 +233,88 @@ def function_one():
     _f = out_two | out_two
 
     print "_f",bin(_f)
+
+
     _k = 0b01011010100000100111100110011001
+    return out_two
 
 def function_two():
     print "\n\n\n _b", _b
-
+    global _f
+    global _k
     out_two = (_b ^ _c) ^ _d
+    _f = out_two
     _k = 0b01101110110110011110101110100001
+    return out_two
 
 def function_three():
     print "\n\n\n _b", _b
-
-    out_two = ((_b & _c) & (_b & _d)) | (C & D)
-
+    global _f
+    global _k
+    out_three = ((_b & _c) & (_b & _d)) | (_c & _d)
+    _f = out_three
     _k = 0b10001111000110111011110011011100
+    return out_three
 
 def function_four():
-
-    out_two = ((_b & _c) & (_b & _d)) | (C & D)
-
+    global _f
+    global _k
+    out_four = (_b ^ _c) ^ _d
+    _f = out_four
     _k = 0b11001010011000101100000111010110
+    return out_four
+
+#right rotate
+def ROR(x, n, bits = 32):
+    mask = (2L**n) - 1
+    mask_bits = x & mask
+    return (x >> n) | (mask_bits << (bits - n))
+
+#left rotate
+def ROL(x, n, bits=32):
+    return ROR(x, bits - n, bits)
+
+#step 11.2
+def put_together():
+    output = ROL(_a, 5, 64) + _f + _e + _k
+    print bin(output)
+
+    #check if output is longer than 32 bits
+    #trucate the result
+    #example : 100000100111110001101110010101010100 is more than 32 bits
+    #output : 00100111110001101110010101010100
+    # reassign values
+    # E = D
+    # D = c
+    # C = 8 left Rotate 30
+    # B = A
+    # A = output
+    print len(bin(output))
+
+    if len(bin(output)) > 32:
+        length = len(bin(output)) - 32
+
+
+        global _e
+        global _d
+        global _c
+        global _b
+        global _a
+        _e = _d
+        _d = _c
+        _c = ROL(_b, 30, 32)
+        _b = _a
+        _a = output
+
 
 def end_function():
+
+    global h0
+    global h1
+    global h2
+    global h3
+    global h4
+    
     h0 = h0+_a;
     h1 = h1+_b;
     h2 = h2+_c;
@@ -228,6 +328,7 @@ def end_function():
     h4_hex = hex(h4)
 
     final_hash = h0_hex + h1_hex + h2_hex + h3_hex + h4_hex
+    print "final_hash", final_hash
 
 class Sha1Hash(object):
     _message_byte_length = 0
